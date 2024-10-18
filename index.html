@@ -3,55 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RSA Encryption and Decryption</title>
-    <script src="https://cdn.rawgit.com/travist/jsencrypt/master/bin/jsencrypt.min.js"></script>
+    <title>RSA Encryption App</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 15px;
+            font-size: 14px;
+            resize: vertical;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .output {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+    </style>
 </head>
 <body>
-    <h2>RSA Encryption and Decryption</h2>
-    
-    <!-- Input untuk Enkripsi -->
-    <textarea id="plaintext" rows="4" cols="50" placeholder="Masukkan teks untuk dienkripsi"></textarea>
-    <br><br>
-    <button onclick="encrypt()">Enkripsi</button>
-    <br><br>
-    
-    <!-- Output Enkripsi -->
-    <textarea id="encrypted" rows="4" cols="50" readonly placeholder="Hasil Enkripsi akan tampil di sini"></textarea>
-    <br><br>
 
-    <!-- Tombol untuk Dekripsi -->
-    <button onclick="decrypt()">Dekripsi</button>
-    <br><br>
+    <div class="container">
+        <h1>RSA Encryption</h1>
+        
+        <label for="plaintext">Teks Asli:</label>
+        <textarea id="plaintext" rows="4" placeholder="Masukkan teks di sini..."></textarea>
 
-    <!-- Output Dekripsi -->
-    <textarea id="decrypted" rows="4" cols="50" readonly placeholder="Hasil Dekripsi akan tampil di sini"></textarea>
+        <button onclick="encrypt()">Enkripsi</button>
 
+        <div class="output">
+            <label for="encrypted">Teks Terenkripsi:</label>
+            <textarea id="encrypted" rows="4" readonly></textarea>
+        </div>
+
+        <button onclick="decrypt()">Dekripsi</button>
+
+        <div class="output">
+            <label for="decrypted">Teks Didekripsi:</label>
+            <textarea id="decrypted" rows="4" readonly></textarea>
+        </div>
+    </div>
+
+    <script src="https://cdn.rawgit.com/travist/jsencrypt/master/bin/jsencrypt.min.js"></script>
     <script>
-        // Inisialisasi JSEncrypt
         const crypt = new JSEncrypt({default_key_size: 1024});
-
-        // Generate public dan private key
         const publicKey = crypt.getPublicKey();
         const privateKey = crypt.getPrivateKey();
 
-        console.log("Public Key: ", publicKey);
-        console.log("Private Key: ", privateKey);
-
-        // Fungsi untuk enkripsi teks
         function encrypt() {
             const plaintext = document.getElementById("plaintext").value;
-            crypt.setPublicKey(publicKey); // Set public key
-            const encrypted = crypt.encrypt(plaintext); // Enkripsi teks
-            document.getElementById("encrypted").value = encrypted; // Tampilkan hasil enkripsi
+            crypt.setPublicKey(publicKey);
+            const encrypted = crypt.encrypt(plaintext);
+            document.getElementById("encrypted").value = encrypted;
         }
 
-        // Fungsi untuk dekripsi teks
         function decrypt() {
             const encrypted = document.getElementById("encrypted").value;
-            crypt.setPrivateKey(privateKey); // Set private key
-            const decrypted = crypt.decrypt(encrypted); // Dekripsi teks
-            document.getElementById("decrypted").value = decrypted; // Tampilkan hasil dekripsi
+            crypt.setPrivateKey(privateKey);
+            const decrypted = crypt.decrypt(encrypted);
+            document.getElementById("decrypted").value = decrypted;
         }
     </script>
+
 </body>
 </html>
